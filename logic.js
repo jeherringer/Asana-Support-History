@@ -83,7 +83,7 @@ function searchTags(button) {
 
 // Function to display tasks in a modal
 function displayModal(tasks) {
-    var modal = document.getElementById("myModal");
+    var modal = document.getElementById("taskModal");
     var modalContent = document.getElementById("modal-content");
     modal.style.display = "block";
     modalContent.innerHTML = "<h2>Tasks:</h2>";
@@ -95,18 +95,47 @@ function displayModal(tasks) {
             modalContent.innerHTML += "<p>" + taskLink + "</p>";
         });
     }
+    
+    // Focus trap setup
+    const focusableElements =
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    const firstFocusableElement = modal.querySelectorAll(focusableElements)[0];
+    const focusableContent = modal.querySelectorAll(focusableElements);
+    const lastFocusableElement = focusableContent[focusableContent.length - 1];
+
+    document.addEventListener('keydown', function(e) {
+        let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
+
+        if (!isTabPressed) {
+            return;
+        }
+
+        if (e.shiftKey) {
+            if (document.activeElement === firstFocusableElement) {
+                lastFocusableElement.focus();
+                e.preventDefault();
+            }
+        } else {
+            if (document.activeElement === lastFocusableElement) {
+                firstFocusableElement.focus();
+                e.preventDefault();
+            }
+        }
+    });
+
+    firstFocusableElement.focus();
 }
 
 // Close the modal when the user clicks on the close button
 var closeModal = document.getElementsByClassName("close")[0];
 closeModal.onclick = function() {
-    var modal = document.getElementById("myModal");
+    var modal = document.getElementById("taskModal");
     modal.style.display = "none";
 }
 
 // Close the modal when the user clicks outside of it
 window.onclick = function(event) {
-    var modal = document.getElementById("myModal");
+    var modal = document.getElementById("taskModal");
     if (event.target == modal) {
         modal.style.display = "none";
     }

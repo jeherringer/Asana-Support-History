@@ -5,6 +5,7 @@ body {
 
 h1, h2 {
     font-family: 'Oswald', sans-serif;
+    text-align: center;
 }
 
 /* Container Styles */
@@ -119,4 +120,8 @@ h1, h2 {
 
   .tag-button:hover {
     background-color: #75ceda;
+  }
+
+  #modal-description {
+    display: none;
   }
